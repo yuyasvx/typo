@@ -1,9 +1,7 @@
 <template>
   <div class="home">
     <div class="home-textform">
-      <textarea name="" id="" cols="30" rows="10">
-        aaaaa
-      </textarea>
+      <div class="inputbox" contenteditable="true">Type something.</div>
     </div>
     <div class="home-sidebar"></div>
   </div>
@@ -18,4 +16,20 @@ import { Component, Vue } from 'vue-property-decorator';
 export default class Home extends Vue {}
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.inputbox {
+  font-size: 72px;
+  cursor: auto;
+  margin-left: 80px;
+
+  &:focus {
+    outline: 0;
+  }
+}
+
+.home-textform {
+  height: calc(100vh - 80px);
+  display: flex;
+  align-items: center;
+}
+</style>
