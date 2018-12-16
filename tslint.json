@@ -1,0 +1,24 @@
+{
+  "rules": {
+    "max-line-length": [true, 200],
+    "no-console": [true],
+    "semicolon": [true, "always"],
+    "prefer-const": true,
+    "no-var-keyword": true,
+    "quotemark": [true, "single", "avoid-escape", "avoid-template"],
+    "triple-equals": true,
+    "switch-default": true,
+    "curly": true,
+//    "no-unused-variable": [true, {"ignore-pattern": "sqlite3"}],
+    "no-irregular-whitespace": true,
+    "comment-format": [true, "check-space"],
+    "typedef": [true,
+      "call-signature",
+      "parameter",
+      "property-declaration",
+      "member-variable-declaration"
+    ],
+    "prefer-template": true,
+    "no-any": true
+  }
+}
