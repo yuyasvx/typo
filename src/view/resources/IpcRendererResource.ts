@@ -16,11 +16,13 @@ export const prepare = () => {
   });
 
   ipcRenderer.on('reply-get-darkappearance', (event: any, arg: boolean) => {
+    console.log(arg);
     systemStatusStore.mutateDarkAppearance(arg);
   });
 
   getSystemPlatform();
   getSystemLanguage();
+  getDarkAppearance();
   state.prepared = true;
 };
 

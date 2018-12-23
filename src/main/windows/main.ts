@@ -5,6 +5,7 @@ import * as constants from '../utilities/constants';
  * オーガナイザ・ウィンドウ
  */
 const main: window = {
+  name: 'main',
   option: {
     width: 1200,
     height: 720,

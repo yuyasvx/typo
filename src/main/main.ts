@@ -6,6 +6,7 @@ import * as IpcConnector from './resources/IpcMainResource';
 app.on('ready', () => {
   IpcConnector.prepare();
   windowActivator.execute(main);
+  IpcConnector.prepareSend();
 });
 
 app.on('window-all-closed', () => {});

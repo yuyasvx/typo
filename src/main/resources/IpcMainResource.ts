@@ -1,10 +1,15 @@
 import { ipcMain, Event } from 'electron';
-// @ts-ignore
-import { is, darkMode } from 'electron-util';
+import { is } from 'electron-util';
 import Platform from '../../common/enum/Platform';
+import {
+  getDarkAppearance,
+  subscribeDarkAppearance
+} from './SystemPreferencesResource';
+import { getWindowStatus } from '../window-activator';
 
 const state = {
-  prepared: false
+  prepared: false,
+  preparedSend: false
 };
 
 export const prepare = () => {
@@ -30,9 +35,25 @@ export const prepare = () => {
   });
 
   ipcMain.on('get-darkappearance', (event: Event) => {
-    // TODO 正常に動かない
-    event.sender.send('reply-get-darkappearance', darkMode.isEnabled);
+    event.sender.send('reply-get-darkappearance', getDarkAppearance());
   });
+  return true;
+};
 
+export const prepareSend = (): boolean => {
+  if (state.preparedSend) {
+    return true;
+  }
+
+  const mainWindowInstance = getWindowStatus().filter(
+    w => w.window.name === 'main'
+  )[0].instance.webContents;
+  if (!mainWindowInstance) {
+    return false;
+  }
+
+  subscribeDarkAppearance((isEnabled: boolean) => {
+    mainWindowInstance.send('reply-get-darkappearance', isEnabled);
+  });
   return true;
 };

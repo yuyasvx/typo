@@ -4,6 +4,9 @@ import { BrowserWindow, BrowserWindowConstructorOptions } from 'electron';
  * ウィンドウオブジェクトの抽象化
  */
 export interface window {
+  /** ウィンドウオブジェクトの識別子 */
+  name: string;
+
   /** ウィンドウの詳細オプション */
   option: BrowserWindowConstructorOptions;
 
