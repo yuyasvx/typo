@@ -15,35 +15,24 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
-import { mapState } from 'vuex';
-@Component({
-  computed: {
-    ...mapState('homeWindow', {
-      pageTitle: 'pageTitle'
-    })
-  }
-})
+import * as IpcRenderResource from './resources/IpcRendererResource';
+import { getHomeWindow as homeWindow } from '@/view/store/HomeWindow';
+
+// @Component({
+//   computed: {
+//     ...mapState('HomeWindow', {
+//       pageTitle: 'pageTitle'
+//     })
+//   }
+// })
+@Component
 export default class Home extends Vue {
-  /** data() 内のデータは、クラス内のフィールドとして定義 */
-  hogehoge: string | null = 'Hello!';
-
-  /**
-   * mounted() などのライフサイクル系のメソッドは、クラス内のメソッドとして定義
-   */
   mounted(): void {
-    // console.log(this.pageTitle);
+    IpcRenderResource.prepare();
   }
 
-  /**
-   * methods:{} ブロック内のメソッドは、クラス内のメソッドとして定義
-   */
-  someMethods(): void {}
-
-  /**
-   * computedな値は、getter/setterのみを定義しておしまい
-   */
-  get computedValue(): string {
-    return 'hello!';
+  get pageTitle(): string {
+    return homeWindow.pageTitle;
   }
 }
 </script>
