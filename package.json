@@ -16,12 +16,15 @@
     "make:win": "echo Not Supported!",
     "lint:vue": "vue-cli-service lint",
     "test:unit:vue": "vue-cli-service test:unit",
-    "run": "electron dist/main/main.js"
+    "run": "electron dist/main/main.js",
+    "rebuild": "electron-rebuild -w font-manager -p -v 3.0.13",
+    "postinstall": "npm run rebuild"
   },
   "dependencies": {
     "buefy": "^0.7.1",
     "electron-store": "^2.0.0",
     "electron-util": "^0.10.2",
+    "font-manager": "^0.3.0",
     "vue": "^2.5.17",
     "vue-property-decorator": "^7.2.0",
     "vue-router": "^3.0.1",
@@ -43,7 +46,7 @@
     "@vue/test-utils": "^1.0.0-beta.20",
     "babel-minify-webpack-plugin": "^0.3.1",
     "chai": "^4.1.2",
-    "electron": "^4.0.0",
+    "electron": "^3.0.13",
     "electron-builder": "^20.38.3",
     "electron-rebuild": "^1.8.2",
     "eslint": "^5.10.0",

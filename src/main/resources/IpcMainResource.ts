@@ -6,6 +6,8 @@ import {
   subscribeDarkAppearance
 } from './SystemPreferencesResource';
 import { getWindowStatus } from '../window-activator';
+// @ts-ignore
+import * as FontResource from './FontResource.js';
 
 const state = {
   prepared: false,
@@ -37,6 +39,20 @@ export const prepare = () => {
   ipcMain.on('get-darkappearance', (event: Event) => {
     event.sender.send('reply-get-darkappearance', getDarkAppearance());
   });
+
+  ipcMain.on('get-fontfamilylist', (event: Event) => {
+    const fontList: FontManagerItem[] = FontResource.getFontList();
+    const fontFamilyList: string[] = fontList
+      .map((item: FontManagerItem) => {
+        return item.family || '';
+      })
+      .sort()
+      .filter((x, i, self) => {
+        return self.indexOf(x) === i;
+      });
+    event.sender.send('reply-get-fontfamilylist', fontFamilyList);
+  });
+
   return true;
 };
 

@@ -1,9 +1,8 @@
 import {
+  getModule,
   Module,
-  VuexModule,
   Mutation,
-  Action,
-  getModule
+  VuexModule
 } from 'vuex-module-decorators';
 import Platform from '../../common/enum/Platform';
 import store from '@/view/store';
@@ -14,13 +13,16 @@ export default class SystemStatus extends VuexModule {
   initialized: boolean = false;
 
   /** このアプリを立ち上げているOSの種類。 */
-  platform: Platform | null = null;
+  platform: Platform = Platform.UNKNOWN;
 
   /** PCの使用言語 */
   language: string | null = null;
 
   /** ダークモードかどうか */
   darkAppearance: boolean = false;
+
+  /** PCにインストール済みのフォントのうち、フォントファミリだけを一覧にしたもの */
+  fontFamilyList: string[] = [];
 
   @Mutation
   public mutatePlatformValue(platform: Platform): void {
@@ -35,6 +37,11 @@ export default class SystemStatus extends VuexModule {
   @Mutation
   public mutateDarkAppearance(value: boolean): void {
     this.darkAppearance = value;
+  }
+
+  @Mutation
+  public mutateFontFamilyList(value: string[]): void {
+    this.fontFamilyList = value;
   }
 
   private hasInitialized(): void {}

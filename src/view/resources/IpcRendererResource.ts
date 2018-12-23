@@ -16,13 +16,17 @@ export const prepare = () => {
   });
 
   ipcRenderer.on('reply-get-darkappearance', (event: any, arg: boolean) => {
-    console.log(arg);
     systemStatusStore.mutateDarkAppearance(arg);
+  });
+
+  ipcRenderer.on('reply-get-fontfamilylist', (event: any, arg: string[]) => {
+    systemStatusStore.mutateFontFamilyList(arg);
   });
 
   getSystemPlatform();
   getSystemLanguage();
   getDarkAppearance();
+  getFontFamilyList();
   state.prepared = true;
 };
 
@@ -36,4 +40,8 @@ export const getSystemLanguage = (): void => {
 
 export const getDarkAppearance = (): void => {
   ipcRenderer.send('get-darkappearance');
+};
+
+export const getFontFamilyList = (): void => {
+  ipcRenderer.send('get-fontfamilylist');
 };
