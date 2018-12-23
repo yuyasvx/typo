@@ -30,7 +30,7 @@ export const prepare = () => {
   });
 
   ipcMain.on('get-darkappearance', (event: Event) => {
-    console.log('Detected: darkappearance');
+    // TODO 正常に動かない
     event.sender.send('reply-get-darkappearance', darkMode.isEnabled);
   });
 

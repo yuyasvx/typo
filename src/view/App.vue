@@ -31,7 +31,7 @@ export default class Home extends Vue {
     IpcRenderResource.prepare();
   }
 
-  get pageTitle(): string {
+  get pageTitle(): string | null {
     return homeWindow.pageTitle;
   }
 }

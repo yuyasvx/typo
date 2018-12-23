@@ -21,17 +21,20 @@ import { systemStatusStore } from '@/view/store/SystemStatus';
   components
 })
 export default class HomeTextform extends Vue {
-  typedText: string = 'Type something.';
-  inputbox: Element | null;
+  typedText: string | null = 'Type something.';
+  inputbox: Element | null = null;
 
-  get platform(): Platform {
+  get platform(): Platform | null {
     return systemStatusStore.platform;
   }
 
   mounted(): void {
     this.inputbox = document.querySelector('.home-textform .inputbox');
-    this.inputbox.addEventListener('paste', (evt: ClipboardEvent) => {
-      this.pasteAsPlainText(evt);
+    if (!this.inputbox) {
+      return;
+    }
+    this.inputbox.addEventListener('paste', (event: Event) => {
+      this.pasteAsPlainText(event);
     });
   }
 
@@ -46,20 +49,40 @@ export default class HomeTextform extends Vue {
     }
   }
 
-  pasteAsPlainText(event: ClipboardEvent): void {
+  /**
+   * プレーンなテキストとして貼り付ける処理
+   * @param {Event} event チェック対象のオブジェクト
+   * @return {void}
+   */
+  pasteAsPlainText(event: Event): void {
     event.preventDefault();
+    if (!this.isClipboardEvent(event)) {
+      return;
+    }
     const text = event.clipboardData.getData('text/plain');
     document.execCommand('insertHTML', false, text);
   }
 
-  mutateTypedText(event): void {
-    this.typedText = this.inputbox.textContent;
+  mutateTypedText(event: Event): void {
+    if (this.typedText && this.inputbox) {
+      this.typedText = this.inputbox.textContent;
+    }
   }
 
   // @Watch('typedText')
   // mutateInputbox() {
   //   this.inputbox.innerHTML = this.typedText;
   // }
+
+  /**
+   * 引数の型がClipboardEventであることを判定
+   *
+   * @param {*} event チェック対象のオブジェクト
+   * @return {boolean} ClipboardEventオブジェクトであれば true
+   */
+  private isClipboardEvent(event: any): event is ClipboardEvent {
+    return !!event.clipboardData;
+  }
 }
 </script>
 

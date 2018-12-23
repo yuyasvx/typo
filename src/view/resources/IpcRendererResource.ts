@@ -16,7 +16,6 @@ export const prepare = () => {
   });
 
   ipcRenderer.on('reply-get-darkappearance', (event: any, arg: boolean) => {
-    console.log('darkmode? :' + arg);
     systemStatusStore.mutateDarkAppearance(arg);
   });
 
