@@ -7,15 +7,34 @@
     <!--</div>-->
     <div class="titlebar">
       <div class="titlebar-control-padding-mac"></div>
-      <span class="titlebar-text">Typo</span>
+      <span class="titlebar-text">{{ pageTitle }}</span>
     </div>
     <router-view />
   </div>
 </template>
 
 <script lang="ts">
-import { Vue } from 'vue-property-decorator';
-export default class Home extends Vue {}
+import { Vue, Component } from 'vue-property-decorator';
+import * as IpcRenderResource from './resources/IpcRendererResource';
+import { getHomeWindow as homeWindow } from '@/view/store/HomeWindow';
+
+// @Component({
+//   computed: {
+//     ...mapState('HomeWindow', {
+//       pageTitle: 'pageTitle'
+//     })
+//   }
+// })
+@Component
+export default class Home extends Vue {
+  mounted(): void {
+    IpcRenderResource.prepare();
+  }
+
+  get pageTitle(): string | null {
+    return homeWindow.pageTitle;
+  }
+}
 </script>
 
 <style lang="scss">
@@ -33,6 +52,7 @@ export default class Home extends Vue {}
   display: block;
   /*flex-direction: row;*/
   background-color: $base-light-background;
+  color: black;
 }
 
 .titlebar {

@@ -18,7 +18,7 @@
       "property-declaration",
       "member-variable-declaration"
     ],
-    "prefer-template": true,
-    "no-any": true
+    "prefer-template": true
+    // "no-any": true
   }
 }

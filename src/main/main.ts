@@ -1,8 +1,10 @@
 import { app } from 'electron';
 import * as windowActivator from './window-activator';
 import main from './windows/main';
+import * as IpcConnector from './resources/IpcMainResource';
 
-app.on('ready',  () => {
+app.on('ready', () => {
+  IpcConnector.prepare();
   windowActivator.execute(main);
 });
 
