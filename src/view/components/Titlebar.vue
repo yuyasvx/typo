@@ -17,7 +17,6 @@ const DEFAULT_APP_NAME = 'Typo';
 
 @Component
 export default class Titlebar extends Vue {
-  documentTitle: string = 'Typo';
   titlebarTextStyle: StyleInterface = {
     fontFamily: 'inherit',
     width: 'auto'
@@ -52,6 +51,10 @@ export default class Titlebar extends Vue {
     return homeWindowStore.currentStyle.fontFamily;
   }
 
+  get currentFontSize(): string | undefined {
+    return homeWindowStore.currentStyle.fontSize;
+  }
+
   @Watch('currentFontFamily')
   updateTitlebarText(): void {
     if (!this.currentFontFamily) {
@@ -59,7 +62,9 @@ export default class Titlebar extends Vue {
       this.titlebarTextStyle.fontFamily = 'inherit';
       document.title = `${DEFAULT_APP_NAME}`;
     } else {
-      homeWindowStore.mutatePageTitle(`${this.currentFontFamily} — 72px`);
+      homeWindowStore.mutatePageTitle(
+        `${this.currentFontFamily} — ${this.currentFontSize}`
+      );
       this.titlebarTextStyle.fontFamily = this.currentFontFamily;
       document.title = `${DEFAULT_APP_NAME} — ${this.pageTitle}`;
     }
