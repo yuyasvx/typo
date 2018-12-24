@@ -5,7 +5,7 @@ import {
   getDarkAppearance,
   subscribeDarkAppearance
 } from './SystemPreferencesResource';
-import { getWindowStatus } from '../window-activator';
+import { getWindowStatus } from '../services/window-activator';
 // @ts-ignore
 import * as FontResource from './FontResource.js';
 

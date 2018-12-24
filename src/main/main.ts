@@ -1,19 +1,18 @@
 import { app } from 'electron';
-import * as windowActivator from './window-activator';
+import * as windowActivator from './services/window-activator';
 import main from './windows/main';
-import * as IpcConnector from './resources/IpcMainResource';
+import * as ipcConnector from './resources/IpcMainResource';
 
 app.on('ready', () => {
-  IpcConnector.prepare();
+  ipcConnector.prepare();
   windowActivator.execute(main);
-  IpcConnector.prepareSend();
+  ipcConnector.prepareSend();
 });
 
 app.on('window-all-closed', () => {});
 
 app.on('activate', () => {
-  // console.log('activated');
-  if (windowActivator.countOfOpenWindow <= 1) {
+  if (windowActivator.openWindowCount <= 1) {
     windowActivator.showPrimaryWindow();
   }
 });

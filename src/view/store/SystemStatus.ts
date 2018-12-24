@@ -15,6 +15,9 @@ export default class SystemStatus extends VuexModule {
   /** このアプリを立ち上げているOSの種類。 */
   platform: Platform = Platform.UNKNOWN;
 
+  /** OSのバージョン。 */
+  platformVersion: string | null = null;
+
   /** PCの使用言語 */
   language: string | null = null;
 

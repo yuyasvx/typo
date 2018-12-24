@@ -5,12 +5,7 @@
     <!--<router-link to="/about">About</router-link> |-->
     <!--<router-link to="/test">Test Page</router-link>-->
     <!--</div>-->
-    <div class="titlebar">
-      <div class="titlebar-control-padding-mac"></div>
-      <span class="titlebar-text" :style="titlebarTextStyle">
-        {{ pageTitle }}
-      </span>
-    </div>
+    <titlebar></titlebar>
     <router-view />
   </div>
 </template>
@@ -18,23 +13,14 @@
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator';
 import * as IpcRenderResource from './resources/IpcRendererResource';
-import { homeWindowStore } from '@/view/store/HomeWindow';
 import { systemStatusStore } from '@/view/store/SystemStatus';
-import Platform from '@/common/enum/Platform';
+import components from './references/AllComponents';
 
-@Component
+@Component({
+  components
+})
 export default class Home extends Vue {
   appElement: Element | null = null;
-
-  titlebarTextStyle: StyleInterface = {
-    width: '100%'
-  };
-
-  resizeTitlebarTextWidth(): void {
-    if (this.platform === Platform.MACOS) {
-      this.titlebarTextStyle.width = `${window.innerWidth - 81 * 2}px`;
-    }
-  }
 
   beforeCreate(): void {
     IpcRenderResource.prepare();
@@ -43,22 +29,8 @@ export default class Home extends Vue {
   mounted(): void {
     this.appElement = document.querySelector('#app');
     this.$nextTick(() => {
-      this.resizeTitlebarTextWidth();
       this.changeAppearance();
     });
-    window.addEventListener('resize', this.resizeTitlebarTextWidth);
-  }
-
-  beforeDestroy(): void {
-    window.removeEventListener('resize', this.resizeTitlebarTextWidth);
-  }
-
-  get platform(): Platform {
-    return systemStatusStore.platform;
-  }
-
-  get pageTitle(): string | null {
-    return homeWindowStore.pageTitle;
   }
 
   get darkAppearance(): boolean {
@@ -87,11 +59,6 @@ export default class Home extends Vue {
       classList.add('appearance-normal');
     }
   }
-
-  @Watch('platform')
-  adjustTitlebar(): void {
-    this.resizeTitlebarTextWidth();
-  }
 }
 </script>
 
@@ -119,26 +86,6 @@ export default class Home extends Vue {
 .appearance-dark {
   background-color: #333333;
   color: #ffffff;
-}
-
-.titlebar {
-  width: 100%;
-  height: 40px;
-  line-height: 40px;
-  font-size: 15px;
-  color: #000000;
-  display: flex;
-  -webkit-app-region: drag;
-
-  .titlebar-control-padding-mac {
-    width: 81px;
-    height: 40px;
-  }
-
-  .titlebar-text {
-    display: block;
-    text-align: center;
-  }
 }
 
 // Set your colors

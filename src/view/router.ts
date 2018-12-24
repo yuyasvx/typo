@@ -4,13 +4,23 @@ import Home from './views/Home.vue';
 
 Vue.use(Router);
 
-export default new Router({
+const route = new Router({
   mode: 'hash',
   routes: [
     {
       path: '/',
       name: 'home',
-      component: Home
+      component: Home,
+      meta: {
+        title: 'Typo'
+      }
     }
   ]
 });
+
+route.beforeEach((to, from, next) => {
+  document.title = to.meta.title;
+  next();
+});
+
+export default route;

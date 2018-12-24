@@ -20,8 +20,7 @@ export interface HomeWindowInterface {
  * ホーム画面に関するステート
  */
 @Module({ namespaced: true, name: 'HomeWindow', dynamic: true, store })
-export default class HomeWindow extends VuexModule
-  implements HomeWindowInterface {
+export default class HomeWindow extends VuexModule {
   pageTitle: string = 'Typo';
   currentStyle: StyleInterface = {
     fontSize: '72px',

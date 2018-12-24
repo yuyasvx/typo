@@ -7,7 +7,7 @@
           v-model="fontFamilyValue"
           placeholder="font-family"
           :open-on-focus="true"
-          :data="datalist"
+          :data="fontFamilyList"
           @select="option => (selected = option)"
         >
         </b-autocomplete>
@@ -19,6 +19,7 @@
 <script lang="ts">
 import { Vue, Component, Watch } from 'vue-property-decorator';
 import { homeWindowStore } from '../store/HomeWindow';
+import { systemStatusStore } from '@/view/store/SystemStatus';
 
 @Component
 export default class Sidebar extends Vue {
@@ -35,6 +36,10 @@ export default class Sidebar extends Vue {
     return this.datalist.filter((option: string) => {
       return option.indexOf(this.fontFamilyValue) > -1 || false;
     });
+  }
+
+  get fontFamilyList(): string[] {
+    return systemStatusStore.fontFamilyList;
   }
 
   @Watch('fontFamilyValue')
