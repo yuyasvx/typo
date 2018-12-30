@@ -21,6 +21,7 @@ export default class Titlebar extends Vue {
     fontFamily: 'inherit',
     width: 'auto'
   };
+  documentTitle: string = '';
 
   resizeTitlebarTextWidth(): void {
     if (this.platform === Platform.MACOS) {
@@ -60,19 +61,24 @@ export default class Titlebar extends Vue {
     if (!this.currentFontFamily) {
       homeWindowStore.mutatePageTitle(DEFAULT_APP_NAME);
       this.titlebarTextStyle.fontFamily = 'inherit';
-      document.title = `${DEFAULT_APP_NAME}`;
+      this.documentTitle = `${DEFAULT_APP_NAME}`;
     } else {
       homeWindowStore.mutatePageTitle(
         `${this.currentFontFamily} — ${this.currentFontSize}`
       );
       this.titlebarTextStyle.fontFamily = this.currentFontFamily;
-      document.title = `${DEFAULT_APP_NAME} — ${this.pageTitle}`;
+      this.documentTitle = `${DEFAULT_APP_NAME} — ${this.pageTitle}`;
     }
   }
 
   @Watch('platform')
   adjustTitlebar(): void {
     this.resizeTitlebarTextWidth();
+  }
+
+  @Watch('documentTitle')
+  updateDocumentTitle(): void {
+    document.title = this.documentTitle;
   }
 }
 </script>

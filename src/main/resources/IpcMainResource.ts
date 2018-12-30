@@ -1,8 +1,7 @@
 import { ipcMain, Event } from 'electron';
-import { is } from 'electron-util';
-import Platform from '../../common/enum/Platform';
 import {
   getDarkAppearance,
+  getPlatform,
   subscribeDarkAppearance
 } from './SystemPreferencesResource';
 import { getWindowStatus } from '../services/window-activator';
@@ -20,16 +19,7 @@ export const prepare = () => {
   }
 
   ipcMain.on('get-platform', (event: Event) => {
-    // console.log('Detected: getSystemPlatform');
-    let platform = Platform.UNKNOWN;
-    if (is.macos) {
-      platform = Platform.MACOS;
-    } else if (is.windows) {
-      platform = Platform.WINDOWS;
-    } else if (is.linux) {
-      platform = Platform.LINUX;
-    }
-    event.sender.send('reply-get-platform', platform);
+    event.sender.send('reply-get-platform', getPlatform());
   });
 
   ipcMain.on('get-fontlist', (event: Event) => {

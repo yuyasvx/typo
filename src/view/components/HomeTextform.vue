@@ -75,11 +75,6 @@ export default class HomeTextform extends Vue {
     }
   }
 
-  // @Watch('typedText')
-  // mutateInputbox() {
-  //   this.inputbox.innerHTML = this.typedText;
-  // }
-
   /**
    * 引数の型がClipboardEventであることを判定
    *

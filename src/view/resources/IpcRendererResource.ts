@@ -1,6 +1,7 @@
 import { ipcRenderer } from 'electron';
 import Platform from '../../common/enum/Platform';
 import { systemStatusStore } from '@/view/store/SystemStatus';
+import Language from '../../common/enum/Language';
 
 const state = {
   prepared: false
@@ -35,7 +36,8 @@ export const getSystemPlatform = (): void => {
 };
 
 export const getSystemLanguage = (): void => {
-  systemStatusStore.mutateLanguage(navigator.language);
+  const language: string = navigator.language;
+  systemStatusStore.mutateLanguage(Language.toEnum(language));
 };
 
 export const getDarkAppearance = (): void => {

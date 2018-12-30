@@ -1,12 +1,23 @@
-import { app } from 'electron';
+import { app, Menu } from 'electron';
 import * as windowActivator from './services/window-activator';
 import main from './windows/main';
 import * as ipcConnector from './resources/IpcMainResource';
+import {
+  getPlatform,
+  getLanguage
+} from './resources/SystemPreferencesResource';
+import Platform from '../common/enum/Platform';
+import * as HomeWindowMenuBar from './menu/menubar/HomeWindowMenuBar';
 
 app.on('ready', () => {
   ipcConnector.prepare();
   windowActivator.execute(main);
   ipcConnector.prepareSend();
+  if (getPlatform() === Platform.MACOS) {
+    Menu.setApplicationMenu(
+      HomeWindowMenuBar.getHomeWindowMenuBar(getLanguage())
+    );
+  }
 });
 
 app.on('window-all-closed', () => {});
