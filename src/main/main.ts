@@ -1,7 +1,7 @@
 import { app, Menu } from 'electron';
 import * as windowActivator from './services/window-activator';
 import main from './windows/main';
-import * as ipcConnector from './resources/IpcMainResource';
+import * as ipcConnector from '@/main/resources/IpcMainResource';
 import {
   getPlatform,
   getLanguage
@@ -10,6 +10,7 @@ import Platform from '../common/enum/Platform';
 import * as HomeWindowMenuBar from './menu/menubar/HomeWindowMenuBar';
 
 app.on('ready', () => {
+  // TODO 言語別辞書の取得もここでまとめてやっちゃいたい。新しいサービスとして作成？
   ipcConnector.prepare();
   windowActivator.execute(main);
   ipcConnector.prepareSend();

@@ -10,6 +10,8 @@ import LocaleDictionary from '../../../common/locale-dictionary/LocaleDictionary
 import * as SystemPreferencesResource from '../../../main/resources/SystemPreferencesResource';
 import Platform from '../../../common/enum/Platform';
 import Language from '../../../common/enum/Language';
+import * as MenuService from '@/main/services/MenuService';
+import * as LocaleService from '@/common/locale-dictionary/LocaleDictionaryService';
 
 class HomeWindowMenuBar {
   private dictionary: LocaleDictionary;
@@ -57,8 +59,14 @@ class HomeWindowMenuBar {
       label: app.getName(),
       submenu: [
         {
-          label: this.dictionary.HomeWindowMenuBar.appMenuMac.submenu.ABOUT,
-          role: 'about'
+          label: LocaleService.getMessage(
+            this.dictionary.HomeWindowMenuBar.appMenuMac.submenu.ABOUT,
+            'Typo'
+          ),
+          // role: 'about',
+          click(): void {
+            MenuService.openAbout();
+          }
         },
         { type: 'separator' },
         {
@@ -67,7 +75,10 @@ class HomeWindowMenuBar {
         },
         { type: 'separator' },
         {
-          label: this.dictionary.HomeWindowMenuBar.appMenuMac.submenu.HIDE,
+          label: LocaleService.getMessage(
+            this.dictionary.HomeWindowMenuBar.appMenuMac.submenu.HIDE,
+            'Typo'
+          ),
           role: 'hide'
         },
         {
@@ -81,7 +92,10 @@ class HomeWindowMenuBar {
         },
         { type: 'separator' },
         {
-          label: this.dictionary.HomeWindowMenuBar.appMenuMac.submenu.QUIT,
+          label: LocaleService.getMessage(
+            this.dictionary.HomeWindowMenuBar.appMenuMac.submenu.QUIT,
+            'Typo'
+          ),
           role: 'quit'
         }
       ]
@@ -165,12 +179,13 @@ class HomeWindowMenuBar {
     this.helpMenuItemMac = {
       label: 'HELP',
       role: 'help',
-      submenu: []
+      submenu: [{ label: 'JUMP_TO_WEBSITE', click(): void {} }]
     };
     return;
   }
 }
 
+// TODO 引数を language にするんじゃなくて、LocaleDictionaryからHomeWindowMenuBarを切り出して渡すほうが合理的な気が
 export const getHomeWindowMenuBar = (language: Language): Menu => {
   return new HomeWindowMenuBar(language).menu;
 };

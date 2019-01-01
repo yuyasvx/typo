@@ -11,3 +11,19 @@ export const useDictionary = (language: Language): LocaleDictionary => {
   }
   return dictionary;
 };
+
+export const getMessage = (
+  message: string = '',
+  ...params: string[]
+): string => {
+  const splitMessage: string[] = message.split('{}');
+
+  return splitMessage.reduce(
+    (prevValue: string, currValue: string, i: number): string => {
+      // if() {
+      //
+      // }
+      return prevValue + params[i - 1] + currValue;
+    }
+  );
+};
