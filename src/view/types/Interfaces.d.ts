@@ -4,6 +4,7 @@ declare interface StyleInterface {
   fontFamily?: string;
   fontSize?: string;
   fontWeight?: string;
+  lineHeight?: string;
 }
 
 declare interface FontManagerItem {

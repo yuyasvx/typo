@@ -25,7 +25,8 @@ export default class HomeWindow extends VuexModule {
   currentStyle: StyleInterface = {
     fontSize: '72px',
     fontFamily: 'Helvetica Neue',
-    fontWeight: '400'
+    fontWeight: '400',
+    lineHeight: '1.5'
   };
 
   @Mutation

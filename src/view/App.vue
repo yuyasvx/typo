@@ -42,7 +42,6 @@ export default class Home extends Vue {
     if (!this.appElement) {
       return;
     }
-    // console.log('ダークモード変更していません');
     const classList = this.appElement.classList;
 
     if (
@@ -81,16 +80,48 @@ export default class Home extends Vue {
 .appearance-normal {
   background-color: $base-light-background;
   color: black;
+
+  .home-sidebar {
+    border-left: 2px solid #000000;
+  }
 }
 
 .appearance-dark {
   background-color: #333333;
   color: #ffffff;
+
+  .home-sidebar {
+    border-left: 2px solid #ffffff;
+  }
+
+  .input {
+    background-color: #444444;
+    color: #ffffff;
+  }
+
+  .autocomplete {
+    .dropdown-menu {
+      .dropdown-content {
+        /*outline: solid 1px rgba(255, 255, 255, 0.5);*/
+        box-shadow: 0 0px 1px rgba(255, 255, 255, 0.7);
+        background-color: #333333;
+
+        .dropdown-item {
+          color: #ffffff;
+
+          &:hover {
+            background-color: #777777;
+          }
+        }
+      }
+    }
+  }
 }
 
-// Set your colors
-$primary: #000000;
 // primary-invert: findColorInvert($primary);
 
 // Setup $colors to use as bulma classes (e.g. 'is-twitter')
+
+@import '~bulma';
+@import '~buefy/src/scss/buefy';
 </style>
