@@ -12,3 +12,4 @@ asar: true
 mac:
   # category: public.app-category.music
   darkModeSupport: true
+  # electronLanguages: ["ja", "en"]

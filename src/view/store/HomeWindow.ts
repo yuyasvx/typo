@@ -8,6 +8,7 @@ import store from '@/view/store';
 
 export interface HomeWindowInterface {
   pageTitle: string | null;
+  currentStyle: StyleInterface;
 }
 
 /*
@@ -19,14 +20,31 @@ export interface HomeWindowInterface {
  * ホーム画面に関するステート
  */
 @Module({ namespaced: true, name: 'HomeWindow', dynamic: true, store })
-export default class HomeWindow extends VuexModule
-  implements HomeWindowInterface {
-  pageTitle: string | null = 'Typo';
+export default class HomeWindow extends VuexModule {
+  pageTitle: string = 'Typo';
+  currentStyle: StyleInterface = {
+    fontSize: '72px',
+    fontFamily: 'Helvetica Neue',
+    fontWeight: '400',
+    lineHeight: '1.5'
+  };
 
   @Mutation
   public mutatePageTitle(text: string): void {
     this.pageTitle = text;
   }
+
+  @Mutation
+  public mutateCurrentStyle(value: StyleInterface): void {
+    this.currentStyle = value;
+  }
+
+  @Mutation
+  public mutateCurrentStyleByMerging(value: StyleInterface): void {
+    if (typeof value !== 'undefined') {
+      this.currentStyle = Object.assign({}, this.currentStyle, value);
+    }
+  }
 }
 
-export const getHomeWindow = getModule(HomeWindow);
+export const homeWindowStore = getModule(HomeWindow);

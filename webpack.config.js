@@ -1,5 +1,6 @@
 const MinifyPlugin = require('babel-minify-webpack-plugin');
 const nodeExternals = require('webpack-node-externals');
+const path = require('path');
 
 const PRODUCTION = process.env.NODE_ENV === 'production';
 const PLUGIN_PRODUCTION = [new MinifyPlugin()];
@@ -33,7 +34,8 @@ module.exports = {
   },
   // import 文で .ts ファイルを解決するため
   resolve: {
-    extensions: ['.ts']
+    extensions: ['.ts'],
+    alias: { '@': path.resolve(__dirname, 'src') }
   },
   plugins: PRODUCTION ? PLUGIN_PRODUCTION : []
 };

@@ -5,6 +5,7 @@
       contenteditable="true"
       @keydown="handleKeypress"
       @input="mutateTypedText"
+      :style="currentStyle"
     >
       Type something.
     </div>
@@ -16,6 +17,7 @@ import { Component, Vue } from 'vue-property-decorator';
 import components from '../references/AllComponents';
 import Platform from '../../common/enum/Platform';
 import { systemStatusStore } from '@/view/store/SystemStatus';
+import { homeWindowStore } from '@/view/store/HomeWindow';
 
 @Component({
   components
@@ -26,6 +28,10 @@ export default class HomeTextform extends Vue {
 
   get platform(): Platform | null {
     return systemStatusStore.platform;
+  }
+
+  get currentStyle(): StyleInterface {
+    return homeWindowStore.currentStyle;
   }
 
   mounted(): void {
@@ -69,11 +75,6 @@ export default class HomeTextform extends Vue {
     }
   }
 
-  // @Watch('typedText')
-  // mutateInputbox() {
-  //   this.inputbox.innerHTML = this.typedText;
-  // }
-
   /**
    * 引数の型がClipboardEventであることを判定
    *
@@ -95,7 +96,6 @@ export default class HomeTextform extends Vue {
   width: calc(100vw - 300px);
 
   .inputbox {
-    font-size: 72px;
     cursor: auto;
     margin-left: 80px;
     margin-right: 80px;

@@ -1,38 +1,62 @@
 <template>
-  <div id="app">
+  <div id="app" class="appearance-normal">
     <!--<div id="sidebar">-->
     <!--<router-link to="/">Home</router-link> |-->
     <!--<router-link to="/about">About</router-link> |-->
     <!--<router-link to="/test">Test Page</router-link>-->
     <!--</div>-->
-    <div class="titlebar">
-      <div class="titlebar-control-padding-mac"></div>
-      <span class="titlebar-text">{{ pageTitle }}</span>
-    </div>
+    <titlebar></titlebar>
     <router-view />
   </div>
 </template>
 
 <script lang="ts">
-import { Vue, Component } from 'vue-property-decorator';
+import { Component, Vue, Watch } from 'vue-property-decorator';
 import * as IpcRenderResource from './resources/IpcRendererResource';
-import { getHomeWindow as homeWindow } from '@/view/store/HomeWindow';
+import { systemStatusStore } from '@/view/store/SystemStatus';
+import components from './references/AllComponents';
 
-// @Component({
-//   computed: {
-//     ...mapState('HomeWindow', {
-//       pageTitle: 'pageTitle'
-//     })
-//   }
-// })
-@Component
+@Component({
+  components
+})
 export default class Home extends Vue {
-  mounted(): void {
+  appElement: Element | null = null;
+
+  beforeCreate(): void {
     IpcRenderResource.prepare();
   }
 
-  get pageTitle(): string | null {
-    return homeWindow.pageTitle;
+  mounted(): void {
+    this.appElement = document.querySelector('#app');
+    this.$nextTick(() => {
+      this.changeAppearance();
+    });
+  }
+
+  get darkAppearance(): boolean {
+    return systemStatusStore.darkAppearance;
+  }
+
+  @Watch('darkAppearance')
+  changeAppearance(): void {
+    if (!this.appElement) {
+      return;
+    }
+    const classList = this.appElement.classList;
+
+    if (
+      this.darkAppearance === true &&
+      classList.contains('appearance-normal')
+    ) {
+      classList.remove('appearance-normal');
+      classList.add('appearance-dark');
+    } else if (
+      this.darkAppearance === false &&
+      classList.contains('appearance-dark')
+    ) {
+      classList.remove('appearance-dark');
+      classList.add('appearance-normal');
+    }
   }
 }
 </script>
@@ -51,31 +75,53 @@ export default class Home extends Vue {
 
   display: block;
   /*flex-direction: row;*/
+}
+
+.appearance-normal {
   background-color: $base-light-background;
   color: black;
-}
 
-.titlebar {
-  width: 100%;
-  height: 40px;
-  line-height: 40px;
-  font-size: 15px;
-  color: #000000;
-  display: flex;
-
-  .titlebar-control-padding-mac {
-    width: 81px;
-    height: 40px;
-  }
-
-  .titlebar-text {
-    display: block;
+  .home-sidebar {
+    border-left: 2px solid #000000;
   }
 }
 
-// Set your colors
-$primary: #000000;
+.appearance-dark {
+  background-color: #333333;
+  color: #ffffff;
+
+  .home-sidebar {
+    border-left: 2px solid #ffffff;
+  }
+
+  .input {
+    background-color: #444444;
+    color: #ffffff;
+  }
+
+  .autocomplete {
+    .dropdown-menu {
+      .dropdown-content {
+        /*outline: solid 1px rgba(255, 255, 255, 0.5);*/
+        box-shadow: 0 0px 1px rgba(255, 255, 255, 0.7);
+        background-color: #333333;
+
+        .dropdown-item {
+          color: #ffffff;
+
+          &:hover {
+            background-color: #777777;
+          }
+        }
+      }
+    }
+  }
+}
+
 // primary-invert: findColorInvert($primary);
 
 // Setup $colors to use as bulma classes (e.g. 'is-twitter')
+
+@import '~bulma';
+@import '~buefy/src/scss/buefy';
 </style>

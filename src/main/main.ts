@@ -1,18 +1,30 @@
-import { app } from 'electron';
-import * as windowActivator from './window-activator';
+import { app, Menu } from 'electron';
+import * as windowActivator from './services/window-activator';
 import main from './windows/main';
-import * as IpcConnector from './resources/IpcMainResource';
+import * as ipcConnector from '@/main/resources/IpcMainResource';
+import {
+  getPlatform,
+  getLanguage
+} from './resources/SystemPreferencesResource';
+import Platform from '../common/enum/Platform';
+import * as HomeWindowMenuBar from './menu/menubar/HomeWindowMenuBar';
 
 app.on('ready', () => {
-  IpcConnector.prepare();
+  // TODO 言語別辞書の取得もここでまとめてやっちゃいたい。新しいサービスとして作成？
+  ipcConnector.prepare();
   windowActivator.execute(main);
+  ipcConnector.prepareSend();
+  if (getPlatform() === Platform.MACOS) {
+    Menu.setApplicationMenu(
+      HomeWindowMenuBar.getHomeWindowMenuBar(getLanguage())
+    );
+  }
 });
 
 app.on('window-all-closed', () => {});
 
 app.on('activate', () => {
-  // console.log('activated');
-  if (windowActivator.countOfOpenWindow <= 1) {
+  if (windowActivator.openWindowCount <= 1) {
     windowActivator.showPrimaryWindow();
   }
 });

@@ -1,5 +1,5 @@
 <template>
-  <div class="home-sidebar">Sidebar Here.</div>
+  <div class="home-sidebar"><slot /></div>
 </template>
 
 <script lang="ts">
@@ -12,7 +12,6 @@ export default class Sidebar extends Vue {}
 <style lang="scss" scoped>
 .home-sidebar {
   width: 300px;
-  border-left: 2px solid #000000;
   padding: 20px;
 }
 </style>

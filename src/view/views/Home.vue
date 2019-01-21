@@ -1,7 +1,10 @@
 <template>
   <div class="home">
     <home-textform></home-textform>
-    <sidebar></sidebar>
+    <sidebar>
+      <fontfamily-picker />
+      <font-weight-picker />
+    </sidebar>
   </div>
 </template>
 
@@ -18,5 +21,17 @@ export default class Home extends Vue {}
 <style lang="scss" scoped>
 .home {
   display: flex;
+}
+</style>
+
+<style lang="scss">
+.parameter-box {
+  margin-bottom: 20px;
+
+  .parameter-box-title {
+    font-size: 12px;
+    text-transform: uppercase;
+    padding-bottom: 5px;
+  }
 }
 </style>

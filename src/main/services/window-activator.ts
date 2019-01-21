@@ -1,5 +1,5 @@
 import { Menu, BrowserWindow } from 'electron';
-import { window, windowStatus } from './interfaces/window';
+import { window, windowStatus } from '../interfaces/window';
 
 /** singleがtrueに指定されたBrowserWindowインスタンスの情報を格納する */
 let singleWindowStatuses: windowStatus[] = [];
@@ -9,7 +9,7 @@ let singleWindowStatuses: windowStatus[] = [];
 let isDestroyable: boolean = false;
 
 /** 開いてるウィンドウの数 */
-export let countOfOpenWindow: number = 0;
+export let openWindowCount: number = 0;
 
 /**
  * ウィンドウの生成と表示。基本的にアクティベータの実行の時のみ呼ばれる。
@@ -33,13 +33,13 @@ const createWindow = (window: window) => {
   browserWindow.on('ready-to-show', () => {
     if (browserWindow !== null) {
       browserWindow.show();
-      countOfOpenWindow++;
+      openWindowCount++;
     }
   });
 
   browserWindow.on('closed', () => {
     browserWindow = null;
-    countOfOpenWindow--;
+    openWindowCount--;
     singleWindowStatuses = singleWindowStatuses.filter(status => {
       return status.instance !== null && typeof status.instance !== 'undefined';
     });
@@ -57,13 +57,9 @@ const createWindow = (window: window) => {
     });
   }
 
-  browserWindow.on('blur', () => {
-    // console.log('blurred!');
-  });
+  browserWindow.on('blur', () => {});
 
-  browserWindow.on('focus', () => {
-    // console.log('focused!');
-  });
+  browserWindow.on('focus', () => {});
 };
 
 /**
@@ -92,16 +88,16 @@ export const execute = (window: window) => {
    */
 
   // まず、windowStatusを引っ張って、該当のものをcurrentStatusにしまう
-  let hasInstanceShown: boolean = false;
+  let alreadyCreated: boolean = false;
   if (window.single === true) {
     singleWindowStatuses.forEach(status => {
       if (status.window === window) {
         status.instance.show();
-        hasInstanceShown = true;
+        alreadyCreated = true;
       }
     });
   }
-  if (hasInstanceShown === false) {
+  if (alreadyCreated === false) {
     createWindow(window);
   }
 };
