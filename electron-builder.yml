@@ -1,0 +1,15 @@
+appId: me.yuyasvx.typo
+copyright: "Copyright © 2019 yuyasvx.me"
+productName: Typo
+forceCodeSigning: false
+artifactName: "${productName}-${os}-${arch}-${version}.${ext}"
+directories:
+  output: "release"
+files:
+  - "dist/**/*"
+asar: true
+# compression: maximum
+mac:
+  # category: public.app-category.music
+  darkModeSupport: true
+  # electronLanguages: ["ja", "en"]
